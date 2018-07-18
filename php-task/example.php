@@ -55,7 +55,7 @@ function parseEmail(string $email) : bool
 
     $validEmailHeader = array_search('From: <example@esr.ru>', $lines);
 
-    if(!$validEmailHeader || !($validEmailHeader < $headersEnd)) {
+    if(!checkHeader($validEmailHeader, $headersEnd)) {
         return false;
     }
 
@@ -126,6 +126,18 @@ function parseEmail(string $email) : bool
     /* И сохраняем их в базу... */
 
     store($data);
+
+    return true;
+}
+
+/* Проверка на то, существует ли определенный (описанный в начале, для вложений эта функция не подходит) 
+заголовок и действительно ли он находится в заголовках. */
+
+function checkHeader(?int $header, int $headersEnd) : bool
+{
+    if(!$header || !($header < $headersEnd)) {
+        return false;
+    }
 
     return true;
 }
