@@ -53,7 +53,14 @@ function parseEmail(string $email) : bool
     Так же здесь есть проверка на то, что отправитель указан именно в заголовках, а не в теле. Не особо нужно
     в данном варианте, но для примера можно оставить, мало ли. */
 
-    $validEmailHeader = array_search('From: <example@esr.ru>', $lines);
+    $regexp = '/From:.* <?example@esr.ru>?/u';
+
+    $validEmailHeader = preg_grep($regexp, $lines);
+
+    var_dump($validEmailHeader);
+
+    var_dump($lines);
+    die;
 
     if(!checkHeader($validEmailHeader, $headersEnd)) {
         return false;
