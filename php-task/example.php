@@ -48,7 +48,7 @@ function parseEmail(string $email) : bool
     $headersEnd = array_search('', $lines); //конец "основных" заголовков
     
     /* Проверяем, действительно ли письмо пришло с нужного адреса. Поскольку preg_grep() возвращает тот же массив, что ему был дан, 
-    но только с элементами, подходщями под шаблон, то приходится получать ключ первого элемента, потому что дальнейшие сравнения идут с ключами.
+    но только с элементами, которые подходят под шаблон, то приходится получать ключ первого элемента, потому что дальнейшие сравнения идут с ключами.
     Говоря проще - делаем так, чтобы полученное значение было таким, будто бы его вернул array_search(), который просто
     возвращает ключ первого найденного элемента.
     Так же здесь есть проверка на то, что отправитель указан именно в заголовках, а не в теле. Не особо нужно
@@ -56,14 +56,8 @@ function parseEmail(string $email) : bool
 
     $regexp = '/^(From:.* <?example@esr.ru>?)$/u';
 
-    $validFromHeader = preg_grep($regexp, $lines);
-
-    if(!empty($validFromHeader)) {
-        $arrayKey = array_keys($validFromHeader);
-        $validFromHeader = $arrayKey[0];
-    } else {
-        return false;
-    }
+    $validFromHeader = array_keys(preg_grep($regexp, $lines));
+    $validFromHeader = array_shift($validFromHeader);
 
     if(!checkHeader($validFromHeader, $headersEnd)) {
         return false;
