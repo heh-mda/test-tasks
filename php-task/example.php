@@ -73,7 +73,7 @@ function parseEmail(string $email) : bool
     
     $attachmentHeadersEnd = null; 
 
-    for ($i=$attachmentHeader; $i < count($lines); $i++) { 
+    for ($i = $attachmentHeader; $i < count($lines); $i++) { 
         if($lines[$i] == '') {
             $attachmentHeadersEnd = $i;
             break;
@@ -85,7 +85,7 @@ function parseEmail(string $email) : bool
 
     $attachmentBody = '';
    
-    for ($i=$attachmentHeadersEnd; $i < count($lines); $i++) { 
+    for ($i = $attachmentHeadersEnd; $i < count($lines); $i++) { 
         if($lines[$i]) {
             $attachmentBody .= $lines[$i] . ' ' . PHP_EOL;
         } elseif (strpos($lines[$i], 'boundary')) {
